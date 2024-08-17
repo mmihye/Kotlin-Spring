@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.4")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
