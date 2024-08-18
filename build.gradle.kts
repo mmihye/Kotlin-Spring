@@ -33,6 +33,8 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.4")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("io.mockk:mockk:1.13.3")
+    testImplementation("com.ninja-squad:springmockk:4.0.0")
 }
 
 dependencyManagement {
