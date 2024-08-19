@@ -18,7 +18,7 @@ class OrderTransaction(
     @Enumerated(EnumType.STRING)
     val transactionStatus: TransactionStatus,
     val transactionAmount: Long,
-    val merchanTransactionId: String,
+    val merchantTransactionId: String,
     var payMethodTransactionId: String? = null,
     var transactionAt: LocalDateTime? = null,
     var failureCode: String? = null,
