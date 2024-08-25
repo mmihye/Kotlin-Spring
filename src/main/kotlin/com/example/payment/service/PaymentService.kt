@@ -5,7 +5,8 @@ import java.time.LocalDateTime
 
 @Service
 class PaymentService(
-    private val paymentStatusService: PaymentStatusService
+    private val paymentStatusService: PaymentStatusService,
+    private val accountService: AccountService
 ) {
 
     fun pay(
@@ -20,16 +21,21 @@ class PaymentService(
 
         )
         // 계좌에 금액 사용 요청
-        // 성공 : 거래를 성공으로 저장
+        val payMethodTransactionId = accountService.useAccount(orderId)
 
-        // 실패 : 거래를 실패로 저장
+        // 성공 : 거래를 성공으로 저장
+        val (transactionId, transactedAt) = paymentStatusService.saveAsSuccess(orderId, payMethodTransactionId)
+
+
         return PayServiceResponse(
-            payUserId = "payUserId",
-            amount = 100,
-            transactionId = "transactionId",
-            transactedAt = LocalDateTime.now()
+            payUserId = payServiceRequest.payUserId,
+            amount = payServiceRequest.amount,
+            transactionId = transactionId,
+            transactedAt = transactedAt
 
         )
+
+        // 실패 : 거래를 실패로 저장
     }
 
 
