@@ -67,17 +67,13 @@ class PaymentStatusService(
     @Transactional
     fun saveAsSuccess(orderId: Long, payMethodTransactionId: String): Pair<String, LocalDateTime> {
 
-        val order: Order = orderRepository.findById(orderId)
-            .orElseThrow { throw PaymentException(ErrorCode.ORDER_NOT_FOUND) }
+        val order: Order = getOrderByOrderId(orderId)
             .apply {  //필요한곳에서만 order를 수정
                 orderStatus = OrderStatus.PAID
                 paidAmount = orderAmount
             }
 
-        val orderTransaction = orderTransactionRepository.findByOrderAndTransactionType(
-            order = order,
-            transactionType = PAYMENT
-        ).first() //첫번째 값 반환
+        val orderTransaction = getOrderTransactionByOrder(order) //첫번째 값 반환
             .apply {
                 transactionStatus = TransactionStatus.SUCCESS
                 this.payMethodTransactionId = payMethodTransactionId
@@ -91,4 +87,28 @@ class PaymentStatusService(
             )
         )
     }
+
+    fun saveAsFailure(orderId: Long, errorCode: ErrorCode) {
+        val order: Order = getOrderByOrderId(orderId)
+            .apply {
+                orderStatus = OrderStatus.FAILED
+            }
+
+        val orderTransaction = getOrderTransactionByOrder(order) //첫번째 값 반환
+            .apply {
+                transactionStatus = TransactionStatus.FAILURE
+                failureCode = errorCode.name
+                description = errorCode.errorMessage
+            }
+
+    }
+
+    private fun getOrderTransactionByOrder(order: Order) =
+        orderTransactionRepository.findByOrderAndTransactionType(
+            order = order,
+            transactionType = PAYMENT
+        ).first()
+
+    private fun getOrderByOrderId(orderId: Long): Order = orderRepository.findById(orderId)
+        .orElseThrow { throw PaymentException(ErrorCode.ORDER_NOT_FOUND) }
 }
