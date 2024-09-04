@@ -22,6 +22,7 @@ repositories {
 extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -35,6 +36,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.mockk:mockk:1.13.3")
     testImplementation("com.ninja-squad:springmockk:4.0.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.5.4")
 }
 
 dependencyManagement {
