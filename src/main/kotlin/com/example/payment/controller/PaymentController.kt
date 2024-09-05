@@ -1,5 +1,7 @@
 package com.example.payment.controller
 
+import com.example.payment.service.PayServiceRequest
+import com.example.payment.service.PayServiceResponse
 import com.example.payment.service.PaymentService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
@@ -19,9 +21,12 @@ class PaymentController(
     fun pay(
         @Valid @RequestBody
         payRequest: PayRequest
-    ): PayResponse {
-        return PayResponse("p1", 100, "txId", LocalDateTime.now())
-    }
+    ): PayResponse = PayResponse.from( //단일 리턴일때는 return -> =
+        paymentService.pay(
+            payRequest
+                .toPayServiceRequest()
+        )
+    )
 }
 
 data class PayResponse(
@@ -29,7 +34,19 @@ data class PayResponse(
     val amount: Long,
     val transactionId: String,
     val transactedAt: LocalDateTime,
-)
+) {
+    //생성자 템블릿 메소드
+    companion object { //static과 같은 기능
+        fun from(response: PayServiceResponse) =
+            PayResponse(
+                payUserId = response.payUserId,
+                amount = response.amount,
+                transactionId = response.transactionId,
+                transactedAt = response.transactedAt
+
+            )
+    }
+}
 
 data class PayRequest(
     @field:NotBlank //@NotBlank하게되면 생성자에서만 체크하므로 field를 붙여서 필드일때도 체크하게 해주어야함
@@ -40,4 +57,11 @@ data class PayRequest(
     val merchantTransactionId: String,
     @field:NotBlank
     val orderTitle: String,
-)
+) {
+    fun toPayServiceRequest() = PayServiceRequest(
+        payUserId = payUserId,
+        amount = amount,
+        merchantTransactionId = merchantTransactionId,
+        orderTitle = orderTitle
+    )
+}
