@@ -12,4 +12,4 @@ https://velog.io/@mmihye/series/%EC%BD%94%ED%94%84%EB%A7%81
 <img width="658" alt="스크린샷 2024-08-19 오전 1 10 41" src="https://github.com/user-attachments/assets/e55dc6f6-14a3-41c4-9c83-a37a824e75f3">
 
 ## ERD
-<img width="488" alt="스크린샷 2024-08-19 오전 1 11 01" src="https://github.com/user-attachments/assets/6fb486a8-fb31-421d-a9b5-45275fea9f28">
+<img width="1000" alt="스크린샷 2024-09-07 오후 5 37 50" src="https://github.com/user-attachments/assets/44a00c5c-84cb-4b76-860c-5f8f88c70107">
