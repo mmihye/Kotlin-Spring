@@ -15,7 +15,26 @@ interface AccountAdapter {
     fun useAccount(
         @RequestBody useBalanceRequest: UseBalanceRequest
     ): UseBalanceResponse
+
+    @PostMapping("/transaction/cancel")
+    fun cancelUseAccount(
+        @RequestBody cancelBalanceRequest: cancelBalanceRequest
+    ): CancelBalanceResponse
 }
+
+data class cancelBalanceRequest(
+    val transactionId: String,
+    val accountNumber: String,
+    val amount: Long
+)
+
+data class CancelBalanceResponse(
+    var accountNumber: String,
+    val transacationResult: TransactionResultType,
+    val transactionId: String,
+    val amount: Long,
+    val transactionAt: LocalDateTime
+)
 
 class UseBalanceResponse(
     var accountNumber: String, //private 삭제해야 외부에서 접근가능
